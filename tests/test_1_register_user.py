@@ -31,5 +31,6 @@ def test_register(page: Page):
     email = "dziobzi2137@gmail.com"
     login_page.register(name, email)
     login_page.register_form(**register_data)
+    print("Test 1 completed successfully")
     
     
