@@ -31,6 +31,8 @@ def test_register(page: Page):
     email = "dziobzi2137@gmail.com"
     login_page.register(name, email)
     login_page.register_form(**register_data)
+    login_page.verify()
+    # login_page.delete_account()
     print("Test 1 completed successfully")
     
     

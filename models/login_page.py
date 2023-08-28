@@ -35,6 +35,7 @@ class LoginPage:
 
     def register(self, username, email):
         self.new_user_signup = self.page.get_by_role("heading", name="New User Signup!")
+        expect(self.new_user_signup).to_be_visible()
 
         self.register_name = self.page.get_by_placeholder("Name")
         self.register_email = self.page.locator("form").filter(has_text="Signup").get_by_placeholder("Email Address")
@@ -52,6 +53,7 @@ class LoginPage:
         
         ##### ACCOUNT INFORMATION #####
         self.enter_info = self.page.get_by_role("heading", name="Enter Account Information")
+        expect(self.enter_info).to_be_visible()
         
         mr_radio = self.page.locator("input#id_gender1")
         mrs_radio = self.page.locator("input#id_gender2")
@@ -100,16 +102,29 @@ class LoginPage:
         expect(self.page.get_by_role("heading", name="Account Created!")).to_be_visible()
         self.page.locator("//a[@class='btn btn-primary']").click()
 
+
+    def verify(self):
         self.logged_in = self.page.locator("//a[contains(text(), 'Logged in as')]")
         expect(self.logged_in).to_have_text("Logged in as Kamil")
+        print("User verified")
         
-        self.page.locator('//a[contains(text(), "Delete Account")]').click()
-        self.page.locator("//a[@class='btn btn-primary']").click()
 
     def login(self, email, password):
-
-        self.login_email = self.page.locator("form").filter(has_text="Signup").get_by_placeholder("Email Address")
+        expect(self.page.get_by_role("heading", name="Login to your account")).to_be_visible()
+        self.login_email = self.page.locator("form").filter(has_text="Login").get_by_placeholder("Email Address")
         self.login_password = self.page.get_by_placeholder("Password")
         self.login_button = self.page.get_by_role("button", name="Login")
+
+        self.login_email.fill(email)
+        self.login_password.fill(password)
+        self.login_button.click()
+
+    def delete_account(self):
+        if self.page.url != "https://www.automationexercise.com/":
+            self.page.goto("https://www.automationexercise.com/")
+    
+        self.page.locator('//a[contains(text(), "Delete Account")]').click()
+        expect(self.page.get_by_role("heading", name="Account Deleted!")).to_be_visible()
+        self.page.locator("//a[@class='btn btn-primary']").click()
 
 
