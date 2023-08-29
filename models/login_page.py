@@ -30,6 +30,7 @@ class LoginPage:
         self.login_button = self.page.locator("//a[contains(text(),'Signup / Login')]")
 
         self.page.wait_for_load_state()
+        self.login_button.click()
 
 
 
@@ -95,10 +96,8 @@ class LoginPage:
         self.number = self.page.get_by_label("Mobile Number")
         self.number.fill(number)
         self.page.screenshot(path="register.jpg", full_page=True)
-
         self.create_account_btn = self.page.get_by_role('button', name="Create Account")
         self.create_account_btn.click()
-
         expect(self.page.get_by_role("heading", name="Account Created!")).to_be_visible()
         self.page.locator("//a[@class='btn btn-primary']").click()
 
@@ -118,6 +117,12 @@ class LoginPage:
         self.login_email.fill(email)
         self.login_password.fill(password)
         self.login_button.click()
+
+    def logout(self):
+        self.logout_btn = self.page.locator("//a[contains(text(), 'Logout')]")
+        expect(self.logout_btn).to_be_visible()
+        self.logout_btn.click()
+        assert self.page.url == 'https://www.automationexercise.com/login'
 
     def delete_account(self):
         if self.page.url != "https://www.automationexercise.com/":

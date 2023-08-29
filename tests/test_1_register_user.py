@@ -25,7 +25,6 @@ register_data = {
 def test_register(page: Page):
 
     login_page = LoginPage(page)
-    login_page.login_button.click()
 
     name = 'Kamil'
     email = "dziobzi2137@gmail.com"
