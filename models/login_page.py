@@ -25,7 +25,13 @@ class LoginPage:
         self.page.set_viewport_size({"width": 1600, "height": 1200})
 
         self.page.route("**/*", intercept_route )
-        self.page.goto("https://www.automationexercise.com")
+        while True:
+            try:
+                self.page.goto("https://www.automationexercise.com")
+            except:
+                self.page.wait_for_timeout(5000)
+                continue
+            break
         expect(self.page).to_have_url("https://www.automationexercise.com/")
         self.login_button = self.page.locator("//a[contains(text(),'Signup / Login')]")
 
