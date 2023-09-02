@@ -131,9 +131,6 @@ class LoginPage:
         assert self.page.url == 'https://www.automationexercise.com/login'
 
     def delete_account(self):
-        if self.page.url != "https://www.automationexercise.com/":
-            self.page.goto("https://www.automationexercise.com/")
-    
         self.page.locator('//a[contains(text(), "Delete Account")]').click()
         expect(self.page.get_by_role("heading", name="Account Deleted!")).to_be_visible()
         self.page.locator("//a[@class='btn btn-primary']").click()
