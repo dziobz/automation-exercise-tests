@@ -3,23 +3,26 @@ from models.homepage import Homepage
 import json
 
 
+def test_place_order_login_before_checkout(page: Page):
 
-def test_place_order_register_while_checkout(page: Page):
-
-    
     homepage = Homepage(page)
-    homepage.add_to_cart(1)
+    homepage.page.locator("//a[contains(text(),'Signup / Login')]").click()
+    try:
+        homepage.register("Kamil", "dziobzi2137@gmail.com")
+        with open("data.json") as json_file:
+            register_data = json.load(json_file)
+            homepage.register_form(**register_data)
+    except:
+        print("User already registered")
+    else:
+        homepage.login("dziobzi2137@gmail.com", "123456789")
+    finally:
+        homepage.login("dziobzi2137@gmail.com", "123456789")
+    homepage.verify()
+    homepage.add_to_cart(2)
     homepage.go_to_cart()
     homepage.go_to_checkout()
-    homepage.register("Kamil", "dziobzi2137@gmail.com")
-    with open('data.json') as json_file:
-        register_data = json.load(json_file)
-
-        homepage.register_form(**register_data)
-        homepage.go_to_cart()
-        homepage.go_to_checkout()
-        
-        homepage.review_order(title=register_data["title"],
+    homepage.review_order(title=register_data["title"],
                               firstName=register_data["firstName"],
                               lastName=register_data["lastName"],
                               company=register_data["company"],
@@ -29,9 +32,7 @@ def test_place_order_register_while_checkout(page: Page):
                               city=register_data["city"],
                               zipcode=register_data["zipcode"],
                               number=register_data["number"])
-    
     with open("card_details.json") as json_file:
         card_data = json.load(json_file)
         homepage.payment(**card_data)
     homepage.delete_account()
-        

@@ -1,5 +1,4 @@
-from playwright.sync_api import sync_playwright, Page, expect
-import pytest
+from playwright.sync_api import Page, expect
 from models.login_page import LoginPage
 
 incorrect_values = {

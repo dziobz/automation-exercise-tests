@@ -1,5 +1,4 @@
-from playwright.sync_api import sync_playwright, Page, expect
-import pytest
+from playwright.sync_api import Page, expect
 
 BLOCK_RESOURCE_NAMES = [
   'adzerk',

@@ -45,6 +45,16 @@ class Homepage(LoginPage):
         self.continue_btn = self.page.locator("button.btn.btn-success.close-modal")
         self.continue_btn.click()
 
+    # Remove each item from cart
+    def remove_from_cart(self):
+        expect(self.page).to_have_url("https://www.automationexercise.com/view_cart")
+        self.products = self.page.get_by_role("rowgroup")
+        
+        for i in range(self.products.count()):
+            self.product = self.products.locator(f"tr#product-{i+1}")
+            self.product.locator("a.cart_quantity_delete").click()
+            expect(self.product).not_to_be_visible()
+
     # Go to cart
     def go_to_cart(self):
         self.cart = self.page.locator("//a[contains(text(), 'Cart')]")

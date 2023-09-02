@@ -1,5 +1,4 @@
-from playwright.sync_api import sync_playwright, Page, expect
-import pytest
+from playwright.sync_api import Page
 from models.login_page import LoginPage
 
 register_data = {
