@@ -45,6 +45,15 @@ class Homepage(LoginPage):
         self.continue_btn = self.page.locator("button.btn.btn-success.close-modal")
         self.continue_btn.click()
 
+    def add_to_cart_recommended(self):
+        self.recommended_heading = self.page.locator("//h2[contains(text(),'recommended items')]")
+        self.recommended_heading.scroll_into_view_if_needed()
+        self.carousel = self.page.locator("div#recommended-item-carousel")
+        self.recommended_item = self.carousel.locator("div.single-products").nth(0)
+        self.recommended_item.locator("//a[contains(text(), 'Add to cart')]").click()
+        view_cart = self.page.locator("//u[contains(text(),'View Cart')]")
+        view_cart.click()
+        expect(self.page.locator("//a[contains(text(),'Blue Top')]")).to_be_visible()
     # Remove each item from cart
     def remove_from_cart(self):
         expect(self.page).to_have_url("https://www.automationexercise.com/view_cart")
@@ -106,7 +115,21 @@ class Homepage(LoginPage):
         pay_btn.click()
 
         expect(self.page.locator("//b[contains(text(),'Order Placed!')]")).to_be_visible()
+
+    def download_invoice(self):
+        # Start waiting for the download
+        with self.page.expect_download() as download_info:
+            # Perform the action that initiates download
+            download_btn = self.page.locator("//a[contains(text(), 'Download Invoice')]")
+            download_btn.click() 
+        # Wait for the download to start
+        download = download_info.value
+        # Wait for the download process to complete
+        print(download.path())
+        # Save downloaded file somewhere
+        download.save_as("invoice.txt")
         
+               
 
 
         
